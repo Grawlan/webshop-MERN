@@ -1,0 +1,15 @@
+.shopping-cart {
+  min-width: 450px;
+}
+.image-width {
+  width: 90px;
+}
+.wrapper {
+  height: 100vh;
+}
+.user-link {
+  color: #323232 !important;
+}
+.click{
+  cursor: pointer;
+}

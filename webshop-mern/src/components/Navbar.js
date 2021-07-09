@@ -1,12 +1,30 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import ShoppingCart from './shoppingCart/ShoppingCart';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/actions/authActions';
+
+
+
 
 const Navbar = () => {
+  
+  const dispatch = useDispatch();
+
+  const totalCartQuantity = useSelector(state => state.cartReducer.totalCartQuantity)
+  const loggedIn = useSelector(state => state.authReducer.userToken)
+  const isAdmin = useSelector(state => state.authReducer.admin)
+  
+
+  const logOut = e => {
+    dispatch(logout())
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
        
-        <NavLink className="navbar-brand" to="/">CONSOLE</NavLink>
+        <Link className="navbar-brand" to="/">CONSOLE</Link>
 
        
         <button
@@ -27,47 +45,51 @@ const Navbar = () => {
               <NavLink exact activeclassname="active" className="nav-link" to="/">Products</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink cexact activeclassname="active" className="nav-link"to="/about">About</NavLink>
+              <NavLink exact activeclassname="active" className="nav-link"to="/about">About</NavLink>
             </li>
           </ul>
       
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
-              <a
+              <span
                 className="nav-link dropdown"
-                href="#/"
                 id="navbarDropdown"
                 role="button"
                 data-mdb-toggle="dropdown"
                 aria-expanded="false"
               >
                 <i className="fas fa-shopping-cart"></i>
-                <span className="badge rounced-pill badge-notification bg-light text-dark">0</span>
-              </a>
+                { totalCartQuantity > 0 && <span className="badge rounced-pill badge-notification bg-light text-dark">{totalCartQuantity}</span>}
+              </span>
               <ul className="dropdown-menu dropdown-menu-end shopping-cart" aria-labelledby="navbarDropdown">
-                Shoppingcart
+                <ShoppingCart />
               </ul>
             </li>
-            <li className="nav-item dropdown">
-              <a
+             <li className="nav-item dropdown">
+              <span
                 className="nav-link dropdown"
-                href="#/"
                 id="navbarDropdown"
                 role="button"
                 data-mdb-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i className="fas fa-user"></i>
-              </a>
+                { loggedIn && <i className="fas fa-user"></i> }
+              </span> 
             
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li className="nav-item">
-                  <NavLink exact activeclassname="active" className="nav-link" to="/users/usercontrol">Order history</NavLink>
+                  <NavLink exact activeclassname="active" className="nav-link user-link" to="/users/userorders/">Order history</NavLink>
+                </li>
+                <li>
+                  { isAdmin && <NavLink exact activeclassname="active" className="nav-link user-link" to="/users/adminorders">Admin</NavLink>}
+                </li>
+                <li>
+                  <button className="btn btn-primary" onClick={logOut}>Logout</button>
                 </li>
               </ul>
             </li>
             <li>
-              <NavLink exact activeclassname="active" className="nav-link" to="/users/login">Login</NavLink>
+              { !loggedIn && <NavLink exact activeclassname="active" className="nav-link" to="/users/loginregister">Login</NavLink> }
             </li>
           </ul>
         </div>

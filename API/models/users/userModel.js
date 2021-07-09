@@ -51,7 +51,7 @@ exports.registerUser = (req, res) => {
           res.status(500).json({
             statusCode: 500,
             status: false,
-            message: "Failed create user.",
+            message: "Failed to create user.",
             err,
           });
         });
@@ -83,8 +83,7 @@ exports.userLogin = (req, res) => {
           statusCode: 200,
           status: true,
           message: "Authentication was successful.",
-          token: auth.generateToken(user),
-          userId: user._id
+          token: auth.generateToken(user)
         });
       } else {
         res.status(401).json({

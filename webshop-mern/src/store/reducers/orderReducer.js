@@ -1,29 +1,35 @@
 import actiontypes from '../actiontypes';
 
 const initState = {
-  products: [],
-  product: null,
+  order: null,
   loading: false,
   error: undefined
 }
 
-const productsReducer = (state = initState, action) => {
+const orderReducer = (state = initState, action) => {
   switch(action.type) {
 
-    case actiontypes().products.loading:
+    case actiontypes().order.clear:
+      return {
+        ...state,
+        order: null
+      }
+      
+    case actiontypes().order.loading:
       return {
         ...state,
         loading: true
       }
 
-    case actiontypes().products.success:
+    case actiontypes().order.success:
       return {
         ...state,
         loading: false,
-        products: action.payload
+        order: action.payload,
+        error: undefined
       }
 
-    case actiontypes().products.failure:
+    case actiontypes().order.failure:
       return {
         ...state,
         loading: false,
@@ -35,4 +41,4 @@ const productsReducer = (state = initState, action) => {
   }
 }
 
-export default productsReducer;
+export default orderReducer;

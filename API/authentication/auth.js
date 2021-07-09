@@ -5,7 +5,7 @@ const secretKey = process.env.SECRET_KEY;
 
 // generating the token
 exports.generateToken = (user) => {
-  return jwt.sign({ id: user._id }, secretKey, { expiresIn: "1h" });
+  return jwt.sign({ user }, secretKey, { expiresIn: "1h" });
 };
 
 exports.verifyToken = (req, res, next) => {
